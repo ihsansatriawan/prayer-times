@@ -4,7 +4,7 @@ import { ScrollView, StyleSheet, Text } from 'react-native';
 export default class PrayerTimesScreen extends React.Component {
   static route = {
     navigationBar: {
-      title: 'Links',
+      title: 'Prayer Times',
     },
   };
 
