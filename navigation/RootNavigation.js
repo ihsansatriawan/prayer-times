@@ -42,6 +42,12 @@ export default class RootNavigation extends React.Component {
           renderIcon={isSelected => this._renderIcon('cog', isSelected)}>
           <StackNavigation initialRoute="settings" />
         </TabNavigationItem>
+
+        <TabNavigationItem
+          id="prayerTimes"
+          renderIcon={isSelected => this._renderIcon('space-shuttle', isSelected)}>
+          <StackNavigation initialRoute="prayerTimes" />
+        </TabNavigationItem>
       </TabNavigation>
     );
   }
