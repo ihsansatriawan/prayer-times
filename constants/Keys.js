@@ -1,0 +1,3 @@
+export default {
+  SALAT_API_KEY: '7306b992527723025057d48ad35a2660',
+};
