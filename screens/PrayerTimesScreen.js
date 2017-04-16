@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text, TextInput, Button } from 'react-native';
+import { ScrollView, StyleSheet, Text, TextInput, Button, View } from 'react-native';
 import Keys from '../constants/Keys';
 
 export default class PrayerTimesScreen extends React.Component {
@@ -14,7 +14,8 @@ export default class PrayerTimesScreen extends React.Component {
     
     this.state = ({
       dataPrayer: null,
-      text: ''
+      text: '',
+      progress: false
     });
 
     this.onClick = this.onClick.bind(this);
@@ -22,11 +23,15 @@ export default class PrayerTimesScreen extends React.Component {
 
   onClick() {
     const { text } = this.state;
+    this.setState({
+      progress: true
+    })
     return fetch(`http://muslimsalat.com/${text}.json?key=${Keys.SALAT_API_KEY}`)
       .then((response) => response.json())
       .then((responseJson) => {
         return this.setState({
-          dataPrayer: responseJson
+          dataPrayer: responseJson,
+          progress: false
         })
       })
       .catch((error) => {
@@ -48,9 +53,12 @@ export default class PrayerTimesScreen extends React.Component {
   }
 
   render() {
-    const { dataPrayer, text } = this.state;
+    const { dataPrayer, text, progress } = this.state;
     const times = dataPrayer && dataPrayer.items[0]
     if (!dataPrayer) {
+      return <Text>Loading...</Text>
+    }
+    if (progress) {
       return <Text>Loading...</Text>
     }
     return dataPrayer && (
@@ -65,26 +73,26 @@ export default class PrayerTimesScreen extends React.Component {
         />
         <Button
           onPress={this.onClick}
-          title="Press Me"
+          title="Search Prayer Times"
           accessibilityLabel="See an informative alert"
         />
         <Text>
           Waktu solat Dzuhur {dataPrayer.state} ({times.date_for}):
         </Text>
         <Text>
-          Subuh : {times.fajr}
+          Subuh {times.fajr}
         </Text>
         <Text>
-          Dzuhur : {times.dhuhr}
+          Dzuhur {times.dhuhr}
         </Text>
         <Text>
-          Ashar : {times.asr}
+          Ashar {times.asr}
         </Text>
         <Text>
-          Magrib : {times.maghrib}
+          Magrib {times.maghrib}
         </Text>
         <Text>
-          Isya : {times.isha}
+          Isya {times.isha}
         </Text>
 
       </ScrollView>
