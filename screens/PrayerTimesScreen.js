@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text } from 'react-native';
+import { ScrollView, StyleSheet, Text, TextInput } from 'react-native';
 import Keys from '../constants/Keys';
 
 export default class PrayerTimesScreen extends React.Component {
@@ -13,7 +13,8 @@ export default class PrayerTimesScreen extends React.Component {
     super(props);
     
     this.state = ({
-      dataPrayer: null
+      dataPrayer: null,
+      text: ''
     });
   }
 
@@ -31,13 +32,24 @@ export default class PrayerTimesScreen extends React.Component {
   }
 
   render() {
-    const { dataPrayer } = this.state;
+    const { dataPrayer, text } = this.state;
     const times = dataPrayer && dataPrayer.items[0]
+    if (!dataPrayer) {
+      return <Text>Loading...</Text>
+    }
     return dataPrayer && (
       <ScrollView
         style={styles.container}
         contentContainerStyle={this.props.route.getContentContainerStyle()}>
 
+        <TextInput
+          style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+          onChangeText={(text) => this.setState({text})}
+          value={text}
+        />
+        <Text>
+          {text}
+        </Text>
         <Text>
           Waktu solat Dzuhur ({times.date_for}):
         </Text>
