@@ -19,13 +19,10 @@ export default class PrayerTimesScreen extends React.Component {
     });
 
     this.onClick = this.onClick.bind(this);
+    this.fetchData = this.fetchData.bind(this);
   }
 
-  onClick() {
-    const { text } = this.state;
-    this.setState({
-      progress: true
-    })
+  fetchData(text) {
     return fetch(`http://muslimsalat.com/${text}.json?key=${Keys.SALAT_API_KEY}`)
       .then((response) => response.json())
       .then((responseJson) => {
@@ -39,17 +36,16 @@ export default class PrayerTimesScreen extends React.Component {
       });
   }
 
+  onClick() {
+    const { text } = this.state;
+    this.setState({
+      progress: true
+    })
+    return this.fetchData(text)
+  }
+
   componentWillMount() {
-    return fetch(`http://muslimsalat.com/jakarta.json?key=${Keys.SALAT_API_KEY}`)
-      .then((response) => response.json())
-      .then((responseJson) => {
-        return this.setState({
-          dataPrayer: responseJson
-        })
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    return this.fetchData('jakarta')
   }
 
   render() {
